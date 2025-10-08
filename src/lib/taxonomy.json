@@ -1,0 +1,356 @@
+{
+	"fallbackLabel": "Uncategorized",
+	"categories": [
+		{
+			"name": "Politics",
+			"aliases": [
+				"politics",
+				"government",
+				"state",
+				"assembly",
+				"congress",
+				"parliament",
+				"politica",
+				"gobierno",
+				"estado",
+				"asamblea",
+				"congreso",
+				"parlamento"
+			],
+			"keywords": [
+				"politica",
+				"gobierno",
+				"eleccion",
+				"elecciones",
+				"ministro",
+				"ministra",
+				"presidente",
+				"presidenta",
+				"partido",
+				"parlamento",
+				"congreso",
+				"alcalde",
+				"alcaldesa",
+				"diputado",
+				"senado",
+				"decreto",
+				"cne",
+				"tsj",
+				"constitucion",
+				"ley",
+				"mandato",
+				"gobernador",
+				"gobernadora"
+			]
+		},
+		{
+			"name": "Economy",
+			"aliases": [
+				"economy",
+				"business",
+				"finance",
+				"markets",
+				"economia",
+				"negocios",
+				"finanzas",
+				"mercados"
+			],
+			"keywords": [
+				"economia",
+				"inflacion",
+				"dolar",
+				"bolivar",
+				"banco",
+				"finanzas",
+				"mercado",
+				"precio",
+				"salario",
+				"impuesto",
+				"negocio",
+				"empresa",
+				"petroleo",
+				"exportacion",
+				"importacion",
+				"pib",
+				"credito",
+				"devaluacion",
+				"divisas",
+				"bcv",
+				"bono"
+			]
+		},
+		{
+			"name": "Sports",
+			"aliases": [
+				"sports",
+				"sport",
+				"deporte"
+			],
+			"keywords": [
+				"futbol",
+				"futbolista",
+				"gol",
+				"liga",
+				"beisbol",
+				"beisbolista",
+				"baloncesto",
+				"tenis",
+				"nba",
+				"mlb",
+				"mundial",
+				"partido",
+				"marcador",
+				"seleccion",
+				"vinotinto",
+				"olimpico",
+				"olimpiadas"
+			]
+		},
+		{
+			"name": "Technology",
+			"aliases": [
+				"technology",
+				"tech",
+				"tecnologia"
+			],
+			"keywords": [
+				"tecnologia",
+				"software",
+				"aplicacion",
+				"app",
+				"ia",
+				"inteligencia artificial",
+				"ciberseguridad",
+				"internet",
+				"redes sociales",
+				"google",
+				"apple",
+				"microsoft",
+				"android",
+				"ios",
+				"startup",
+				"algoritmo",
+				"programacion",
+				"nube",
+				"cloud",
+				"chip",
+				"semiconductor"
+			]
+		},
+		{
+			"name": "Culture",
+			"aliases": [
+				"culture",
+				"arts",
+				"arte",
+				"cultural"
+			],
+			"keywords": [
+				"cultura",
+				"arte",
+				"teatro",
+				"literatura",
+				"libro",
+				"musica",
+				"concierto",
+				"festival",
+				"cine",
+				"pelicula",
+				"exposicion",
+				"museo"
+			]
+		},
+		{
+			"name": "Entertainment",
+			"aliases": [
+				"entertainment",
+				"showbiz",
+				"espectaculos",
+				"farándula",
+				"farandula"
+			],
+			"keywords": [
+				"farandula",
+				"famoso",
+				"celebridad",
+				"espectaculo",
+				"television",
+				"serie",
+				"streaming",
+				"netflix",
+				"hollywood",
+				"premios",
+				"reality"
+			]
+		},
+		{
+			"name": "Health",
+			"aliases": [
+				"health",
+				"wellness",
+				"salud",
+				"bienestar"
+			],
+			"keywords": [
+				"salud",
+				"covid",
+				"coronavirus",
+				"hospital",
+				"medico",
+				"medicina",
+				"vacuna",
+				"oms",
+				"enfermedad",
+				"clinica",
+				"epidemia",
+				"pandemia"
+			]
+		},
+		{
+			"name": "International",
+			"aliases": [
+				"world",
+				"global",
+				"mundo",
+				"internacional"
+			],
+			"keywords": [
+				"eeuu",
+				"estados unidos",
+				"onu",
+				"europa",
+				"rusia",
+				"china",
+				"ucrania",
+				"conflicto",
+				"guerra",
+				"frontera",
+				"internacional",
+				"diplomacia",
+				"geopolitica"
+			]
+		},
+		{
+			"name": "Society",
+			"aliases": [
+				"society",
+				"community",
+				"social",
+				"comunidad",
+				"país",
+				"pais"
+			],
+			"keywords": [
+				"comunidad",
+				"educacion",
+				"escuela",
+				"universidad",
+				"transporte",
+				"servicios",
+				"protesta",
+				"ciudadania",
+				"barrio",
+				"familia",
+				"trabajo",
+				"empleo"
+			]
+		},
+		{
+			"name": "Crime",
+			"aliases": [
+				"crime",
+				"crimen",
+				"public safety",
+				"security",
+				"police",
+				"seguridad",
+				"policiales"
+			],
+			"keywords": [
+				"accidente",
+				"homicidio",
+				"robo",
+				"incendio",
+				"policia",
+				"tribunal",
+				"fiscalia",
+				"delito",
+				"crimen",
+				"detenido",
+				"carcel",
+				"secuestro"
+			]
+		},
+		{
+			"name": "Opinion",
+			"aliases": [
+				"opinion",
+				"editorial",
+				"columns",
+				"columnas"
+			],
+			"keywords": [
+				"opinion",
+				"editorial",
+				"columna",
+				"analisis",
+				"tribuna",
+				"ensayo"
+			]
+		},
+		{
+			"name": "Weather",
+			"aliases": [
+				"weather",
+				"forecast",
+				"tiempo"
+			],
+			"keywords": [
+				"clima",
+				"lluvia",
+				"tormenta",
+				"huracan",
+				"temperatura",
+				"sequia",
+				"alerta meteorologica"
+			]
+		},
+		{
+			"name": "Science",
+			"aliases": [
+				"science",
+				"scientific",
+				"cientifica"
+			],
+			"keywords": [
+				"ciencia",
+				"investigacion",
+				"estudio",
+				"cientifico",
+				"espacio",
+				"nasa",
+				"astronomia"
+			]
+		},
+		{
+			"name": "Food",
+			"aliases": [
+				"food",
+				"dining",
+				"cuisine",
+				"gastronomia",
+				"comida",
+				"cocina"
+			],
+			"keywords": [
+				"gastronomia",
+				"restaurante",
+				"receta",
+				"cocina",
+				"chef",
+				"comida",
+				"bebida"
+			]
+		}
+	]
+}
