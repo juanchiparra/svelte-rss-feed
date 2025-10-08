@@ -87,14 +87,12 @@ function pickImage(item: ParserItem): string | null {
     return null;
 }
 
-// --- Derived categories ----------------------------------------------------
 function stripHtml(html?: string | null): string {
     if (!html) return "";
     return String(html).replace(/<[^>]*>/g, " ");
 }
 
 function normalizeText(s: string): string {
-    // lower + strip accents
     return s
         .toLowerCase()
         .normalize("NFD")
@@ -195,8 +193,6 @@ function buildClassificationText(item: ParserItem): string {
 const FEED_ATTEMPT_TIMEOUT_MS = 4000; // Max per individual attempt
 const FEED_TOTAL_TIMEOUT_MS = 6500; // Tope total por feed antes de abortar intentos restantes
 const FEED_TIMEOUT_MS = FEED_ATTEMPT_TIMEOUT_MS; // parser internal timeout
-// Client/browser: we'll parse XML via DOM; on server we don't currently fetch
-// during prerender, so no Node parser is needed here.
 
 async function getXml(url: string, fetchFn: typeof fetch) {
     // Use only simple headers to reduce CORS preflight issues in browsers
@@ -224,8 +220,11 @@ function allOrigins(url: string) {
 }
 
 function corsAnywhere(url: string) {
-    // Public demo has rate-limits; only as last resort
-    return `https://cors.isomorphic-git.org/${encodeURIComponent(url)}`;
+    return `https://cors.isomorphic-git.org/${url}`;
+}
+
+function codeTabs(url: string) {
+    return `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`;
 }
 
 function normalizeItem(
@@ -252,7 +251,7 @@ function normalizeItem(
         "";
     summary = stripAttribution(summary, feedMeta?.title);
     const image = pickImage(item);
-    // Derive normalized categories from textual content
+    // Normalized categories from textual content
     const derived = classifyCategoriesFromText(buildClassificationText(item));
     // Map any original categories via aliases to known names; drop unknown ones
     const mappedOriginal = originalCats
@@ -321,30 +320,38 @@ export async function fetchFeeds(
             return [] as NormalizedItem[];
         }
         const deadline = started + FEED_TOTAL_TIMEOUT_MS;
-        const attempts: Array<{ label: string; run: () => Promise<any> }> = [
-            {
+        const proto = (() => {
+            try {
+                return new URL(url).protocol;
+            } catch {
+                return "https:";
+            }
+        })();
+        const isHttps = proto === "https:";
+        const isHttp = proto === "http:";
+
+        const attempts: Array<{ label: string; run: () => Promise<any> }> = [];
+        // Prefer CORS-friendly proxies first to avoid noisy CORS failures in the console
+        attempts.push({
+            label: "allorigins+xml+dom",
+            run: async () => parseFeedXML(await getXml(allOrigins(url), f)),
+        });
+        attempts.push({
+            label: "codetabs+xml+dom",
+            run: async () => parseFeedXML(await getXml(codeTabs(url), f)),
+        });
+        attempts.push({
+            label: "isomorphic-git+xml+dom",
+            run: async () => parseFeedXML(await getXml(corsAnywhere(url), f)),
+        });
+        // Only attempt direct fetch when the URL is https
+        if (isHttps) {
+            attempts.push({
                 label: "direct+xml+dom",
                 run: async () => parseFeedXML(await getXml(url, f)),
-            },
-            {
-                label: "proxy+dom",
-                run: async () => parseFeedXML(await getXml(allOrigins(url), f)),
-            },
-            {
-                label: "http+xml+dom",
-                run: async () => parseFeedXML(await getXml(toHttp(url), f)),
-            },
-            {
-                label: "proxy+http+dom",
-                run: async () =>
-                    parseFeedXML(await getXml(allOrigins(toHttp(url)), f)),
-            },
-            {
-                label: "corsAnywhere+dom",
-                run: async () =>
-                    parseFeedXML(await getXml(corsAnywhere(url), f)),
-            },
-        ];
+            });
+        }
+        // Never attempt a direct http fetch from the browser to avoid mixed content
         for (const a of attempts) {
             if (Date.now() > deadline) break;
             try {
