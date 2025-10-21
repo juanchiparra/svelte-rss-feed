@@ -5,6 +5,8 @@ A minimalist RSS feed reader built with SvelteKit and TypeScript
 
 Demo: https://juanchiparra.github.io/svelte-rss-feed/
 
+![svelte-rss-feed](svelte-rss.png)
+
 ## Features
 - Add multiple feed links at once
 - Works with most RSS feeds
