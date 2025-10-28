@@ -40,7 +40,45 @@
     }
 
 
-    const categories = $derived(["All", ...data.categories]);
+    // Categories available given current non-category filters (source/date)
+    const categories = $derived((() => {
+        let items: NormalizedItem[] = data.items;
+        if (dateFilter !== "all") {
+            const key = dateFilter.slice(4);
+            const start = new Date(`${key}T00:00:00`);
+            const end = new Date(start);
+            end.setDate(end.getDate() + 1);
+            items = items.filter((it) => {
+                if (!it.date) return false;
+                const t = it.date.getTime();
+                return t >= start.getTime() && t < end.getTime();
+            });
+        }
+        if (selectedSource !== "All") {
+            items = items.filter((it) => getSourceLabel(it) === selectedSource);
+        }
+        const set = new Set<string>();
+        for (const it of items) {
+            const cats = it.categories?.length ? it.categories : ["Uncategorized"];
+            for (const c of cats) set.add(c.trim() || "Uncategorized");
+        }
+        const fallback = "Uncategorized";
+        const list = Array.from(set);
+        list.sort((a, b) => {
+            if (a === fallback && b === fallback) return 0;
+            if (a === fallback) return 1;
+            if (b === fallback) return -1;
+            return a.localeCompare(b);
+        });
+        return ["All", ...list];
+    })());
+
+    // Ensure selected category remains valid when filters change
+    $effect(() => {
+        if (!categories.includes(selectedCategory)) {
+            selectedCategory = "All";
+        }
+    });
     function isGrouped(): boolean {
         if (!groupByCategory) return false;
         if (selectedCategory !== "All") return false;
@@ -53,16 +91,28 @@
     // Build grouped data respecting current non-category filters
     const grouped = $derived((() => {
         let items: NormalizedItem[] = data.items;
+        if (dateFilter !== "all") {
+            const key = dateFilter.slice(4);
+            const start = new Date(`${key}T00:00:00`);
+            const end = new Date(start);
+            end.setDate(end.getDate() + 1);
+            items = items.filter((it) => {
+                if (!it.date) return false;
+                const t = it.date.getTime();
+                return t >= start.getTime() && t < end.getTime();
+            });
+        }
         if (selectedSource !== "All") {
             items = items.filter((it) => getSourceLabel(it) === selectedSource);
         }
        
         const byCategory: Record<string, NormalizedItem[]> = {};
         for (const it of items) {
-            const cats = it.categories && it.categories.length ? it.categories : ["Uncategorized"];
+            const cats = it.categories?.length ? it.categories : ["Uncategorized"];
             for (const c of cats) {
                 const key = c.trim() || "Uncategorized";
-                (byCategory[key] ||= []).push(it);
+                if (!byCategory[key]) byCategory[key] = [];
+                byCategory[key].push(it);
             }
         }
         // Derive category list (alphabetical, place Uncategorized last)
